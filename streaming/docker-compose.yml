@@ -20,6 +20,16 @@ services:
       - "9092:9092"
     networks:
       - streaming_net
+  producer:
+    build: .
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKER: kafka:9092
+      TOPIC: bronze-topic
+      CSV_PATH: data/bronze_data.csv
+    networks:
+      - streaming_net
 
 networks:
   streaming_net:
