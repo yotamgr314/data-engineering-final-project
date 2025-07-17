@@ -8,11 +8,12 @@ services:
       - "2181:2181"
     networks:
       - streaming_net
+
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -21,5 +22,137 @@ services:
     networks:
       - streaming_net
 
+  # producer לכל קובץ ברונז
+  producer_routes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_routes_raw
+      - CSV_PATH=data/bronze_static_routes_raw.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_flights:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_flights_streaming
+      - CSV_PATH=data/bronze_flights_streaming_source.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_ticket_prices:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_ticket_prices
+      - CSV_PATH=data/bronze_ticket_prices.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_booked_tickets:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_booked_tickets
+      - CSV_PATH=data/bronze_booked_tickets_raw_streaming.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_flight_weather:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_flight_weather
+      - CSV_PATH=data/bronze_flight_weather_raw_api.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_customers:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_registered_customers
+      - CSV_PATH=data/bronze_registered_customeres_streaming.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_route_weather_points:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_route_weather_points
+      - CSV_PATH=data/bronze_route_weather_points_static.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_boarding_events:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_boarding_events
+      - CSV_PATH=data/bronze_boarding_events_raw.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_flight_events:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_flight_events
+      - CSV_PATH=data/bronze_flight_events_raw.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
+  producer_ticket_events:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - TOPIC=bronze_ticket_events
+      - CSV_PATH=data/bronze_ticket_events_raw_streaming.csv
+    depends_on:
+      - kafka
+    networks:
+      - streaming_net
+
 networks:
   streaming_net:
+    external: true
