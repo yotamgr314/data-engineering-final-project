@@ -1,0 +1,2 @@
+weather_sample_id,temperature,humidity,wind_speed,wind_direction,current_weather_condition,sample_for_date
+w1,20.5,50,10,N,Clear,2025-06-01T07:00:00

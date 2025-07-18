@@ -1,0 +1,3 @@
+event_id,flight_id,event_type,delay_reason,event_time
+ev1,f1,scheduled_departure,,2025-06-01T08:00:00
+ev2,f1,actual_departure,,2025-06-01T08:15:00

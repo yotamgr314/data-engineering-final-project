@@ -1,0 +1,3 @@
+event_id,flight_id,event_type,event_time,passenger_id,baggage_weight,ingestion_time
+ev1,f1,passenger_scanned,2025-06-01T07:30:00,A12345678,,2025-06-01T07:30:01
+ev2,f1,baggage_scanned,2025-06-01T07:31:00,,23.0,2025-06-01T07:31:01
