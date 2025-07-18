@@ -1,0 +1,2 @@
+routes_id,airport_origin,airport_destination,latitude_origin,longitude_origin,latitude_destination,longitude_destination,distance_km
+r1,JFK,LAX,40.6413,-73.7781,33.9416,-118.4085,3974.0

@@ -1,0 +1,2 @@
+flight_id,route_id,max_passenger_capacity,schedualed_arrival,schedualed_departure,max_luggage_weight_capacity
+f1,r1,180,2025-06-01T12:00:00,2025-06-01T08:00:00,20000

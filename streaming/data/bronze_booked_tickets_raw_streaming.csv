@@ -1,0 +1,2 @@
+booked_ticked_id,ticked_price,passenger_passport_id,passenger_first_name,passenger_last_name,order_method,booking_date,ticket_class,luggage_class,passenger_nationality,passenger_email,passenger_date_of_birth
+b1,550.0,A12345678,John,Doe,online,2025-05-10,economy,standard,USA,john@example.com,1990-01-01

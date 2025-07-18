@@ -1,0 +1,2 @@
+customer_passport_id,customer_first_name,customer_last_name,customer_date_of_birth,passenger_nationality,passenger_email,customer_membership_tier
+A12345678,John,Doe,1990-01-01,USA,john@example.com,gold

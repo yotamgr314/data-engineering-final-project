@@ -1,0 +1,2 @@
+price_id,flight_id,class,price,luggage_fee,start_date,end_date,actual
+p1,f1,economy,500.0,30.0,2025-05-01,2025-06-01,True
