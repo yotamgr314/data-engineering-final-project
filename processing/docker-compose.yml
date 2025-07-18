@@ -1,24 +1,49 @@
-version: "3.8"
+# /processing/docker-compose.yml
 services:
-  spark-master:
-    image: bitnami/spark:3.4.1
-    ports:
-      - "7077:7077" # spark master port
-      - "8081:8080" # <-- expose the Master web UI
-      # - "8081:8081"  # optional: if you ever want the worker UI
-    networks:
-      - streaming_net
-  spark-worker:
-    image: bitnami/spark:3.4.1
+  minio:
+    image: minio/minio:RELEASE.2025-06-13T11-33-47Z # תעדכן לתג הקיים
+    command: server /data --console-address ":9001"
     environment:
-      SPARK_MODE: worker
-      SPARK_MASTER_URL: spark://spark-master:7077
-      SPARK_WORKER_MEMORY: 2G
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - data-pipeline-net
+
+  spark-master:
+    image: bitnami/spark:3.4.0
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - "7077:7077"
+      - "8081:8080" # מיפוי Host 8081 → Container 8080 (Master UI)
+    networks:
+      - data-pipeline-net
+
+  spark-worker:
+    image: bitnami/spark:3.4.0
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
     depends_on:
       - spark-master
     networks:
-      - streaming_net
+      - data-pipeline-net
+
+volumes:
+  minio-data:
 
 networks:
-  streaming_net:
+  data-pipeline-net:
     external: true
